@@ -1,7 +1,7 @@
-# React-learning-demo
+# Jest-learning-react-test
 
 **1.文档说明**<br>
-[博客地址](https://www.jianshu.com/p/bf8070c33824)
+- [博客地址](https://www.jianshu.com/p/bf8070c33824)
 
 **2.配置**
 - 克隆代码
