@@ -1,7 +1,7 @@
 # React-learning-demo
 
-**1.文档说明**
-[文档说明](https://www.jianshu.com/p/bf8070c33824)
+**1.文档说明**<br>
+[博客地址](https://www.jianshu.com/p/bf8070c33824)
 
 **2.配置**
 - 克隆代码
@@ -65,5 +65,5 @@ module.exports = {}
     }
   },
 ```
-**测试：**
+**测试：**<br>
 ![成功示例](http://upload-images.jianshu.io/upload_images/6991256-5f81e55efd3baad4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
