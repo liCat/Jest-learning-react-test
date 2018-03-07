@@ -27,7 +27,7 @@
 1. tnpm i 安装依赖
 2. 安装 babel 编译环境 `npm i babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev`
 3. 安装 react 依赖 `npm i react react-dom --save`
-4. 配置 `webpack.config.js`, 在 `module` 里的 `rules` 字段增加 `babel` 编译配置
+4. 配置 `webpack.config.js`, 在 `module` 里的 `rules` 字段增加 `babel` 编译配置
 
 ```js
   {
@@ -78,7 +78,7 @@
 3. 修改 `index.js`, 将 `keyword` 属性传给 List 组件
 4. 修改 `list/index.js`，根据 `keyword` 属性筛选列表
 
-### refs 
+### refs 
 1. 修改 `input/index.js`，给 `input` 标签增加 ref 属性
 2. 增加 `componentDidMount` 方法，运行 `this.input.focus()`
 
