@@ -24,7 +24,7 @@
 ## 各阶段操作
 
 ### 开发环境配置
-1. tnpm i 安装依赖
+1. npm i 安装依赖
 2. 安装 babel 编译环境 `npm i babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev`
 3. 安装 react 依赖 `npm i react react-dom --save`
 4. 配置 `webpack.config.js`, 在 `module` 里的 `rules` 字段增加 `babel` 编译配置
