@@ -1,86 +1,69 @@
 # React-learning-demo
 
-## 使用方式
+**1.文档说明**
+[文档说明](https://www.jianshu.com/p/bf8070c33824)
 
-1. 克隆代码
-2. npm i 安装依赖
-3. 切换到特定分支
-4. npm run dev
+**2.配置**
+- 克隆代码
+- `npm i` 安装依赖
+- 安装测试所需要的包` npm i react-test-renderer enzyme enzyme-adapter-react-16 jest -D`
 
-## 分支对应
 
-- 初始代码  ---  begining
-- 开发环境配置  ---  configuration
-- render & JSX  ---  configuration
-- 组件化 --- component
-- 事件绑定  --- event-binding
-- 列表  ---  list
-- props  ---  props
-- state  ---  state
-- 组件间通信  ---  message-passing
-- refs & DOM  ---  master
-- 生命周期  --- master
-
-## 各阶段操作
-
-### 开发环境配置
-1. npm i 安装依赖
-2. 安装 babel 编译环境 `npm i babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev`
-3. 安装 react 依赖 `npm i react react-dom --save`
-4. 配置 `webpack.config.js`, 在 `module` 里的 `rules` 字段增加 `babel` 编译配置
-
+**3.根目录下新建`.babelrc`文件，文件内容为：**
 ```js
-  {
-    test: /\.jsx?$/,
-    exclude: /node_modules/,
-    use: {
-        loader: 'babel-loader',
-        options: {
-            presets: ['es2015', 'react']
-        }
-    }
-  }
+{
+    "presets":[
+        "es2015",
+        "react"
+    ]
+}
 ```
+- 此内容本为`webpack.config.js`中 `module` 的 `rules` 字段 `babel` 的编译配置。因为Jest测试需要调用`.babelrc`文件，因此需要配置
 
-5. `npm run dev` 看效果
+**4.在要测试的组件目录下新建`__test__`文件夹，并在文件夹里新建`**.test.jsx`（零配置的前提下），并添加测试**
+- 例如，为了测试`item`组件，新建`src/item/__test__/item.test.jsx`，文件内容为：
+```js
+import React from 'react'
+import Enzyme,{shallow} from 'enzyme'     //本例子只以shallow(浅渲染，只渲染父组件)为例
+import Item from '../../item'     //导入需测试的组件
 
-### 组件化
+import Adapter from 'enzyme-adapter-react-16'; //适应React-16
+Enzyme.configure({ adapter: new Adapter() })    //适应React-16，初始化
 
-- 演示一：在 index.js 增加 Input 组件 代码，在 style.css 加上 css 代码
-- 演示二：增加 input 目录，把 Input 相关的代码都移进去
+test('Item',()=>{
+    const item = shallow(<Item item="test"/>); //传入数据'item'
 
-### 事件绑定
+    expect(item.text()).toBe('test')
+    expect(item.hasClass('item')).toBe(true)
+    expect(item.hasClass('item-selected')).toBe(false)
+})
 
-- 演示1: 添加事件绑定（没有 bind this）
-- 演示2：添加 bind this
+test('Item Clicked',()=>{
+    const item = shallow(<Item item="test" />)
 
-### list
+    item.simulate('click')
+    expect(item.hasClass('item')).toBe(true)
+    expect(item.hasClass('item-selected')).toBe(true)
+})
+```
+**测试（必定出错，请往下看）：**
+![出错示例](http://upload-images.jianshu.io/upload_images/6991256-adb74a01743fdc81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-1. 增加 fruits.js
-2. 增加 list 目录，添加 List 组件代码
-3. 修改 index.js
-4. 给 li 增加 key 属性
-
-### props
-
-1. 增加 Item 组件
-2. 修改 List 组件，引用 Item，并且通过 props 传递 item 属性
-
-### state
-
-1. 修改 `item/index.js` ，增加 state 属性和点击事件
-2. 修改 `item/index.css`，增加点击后样式
-
-### 组件间通信
-
-1. 修改 `index.js`，增加 `keyword` state 属性， 增加 `onChange` 方法，并且传给 Item 组件
-2. 修改 `item/index.js`，调用 onChange 回调
-3. 修改 `index.js`, 将 `keyword` 属性传给 List 组件
-4. 修改 `list/index.js`，根据 `keyword` 属性筛选列表
-
-### refs 
-1. 修改 `input/index.js`，给 `input` 标签增加 ref 属性
-2. 增加 `componentDidMount` 方法，运行 `this.input.focus()`
-
-### 生命周期
-增加其他生命周期函数，console 出其调用的顺序
+**5.以上出错是因为没屏蔽CSS，因为在`index.jsx`中`import 
+ './index.css'`，CSS并不是以模块的形式引入的。所以我们需要自定义Mocks屏蔽CSS，具体如下：**
+- 在根目录下新建`__mocks__`并新建`styleMock.js`，内容为：
+```js
+module.exports = {}
+```
+- 在`package.json`中添加字段
+```js
+"scripts":{...
+},
+"jest": {
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
+```
+**测试：**
+![成功示例](http://upload-images.jianshu.io/upload_images/6991256-5f81e55efd3baad4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
